@@ -63,10 +63,6 @@ void multiplicador_matriz(string dimensao){
                 for (size_t k = 0; k < matriz_a[0][1]; k++)
                 {   
                     soma = soma + (matriz_a[i+1][k] * matriz_b[k+1][j]);
-                    //cout << "soma:" << soma << " += matriz_a[" << 
-                    //i << "][" << k << "]:" << matriz_a[i+1][k] << 
-                    //" * matriz_b[" << k << "][" << j << "]:" <<
-                    //matriz_b[k+1][j] << endl;
                 }
                 line_result.push_back(soma);
 
@@ -86,22 +82,12 @@ void multiplicador_matriz(string dimensao){
     }
     file_a.close();
     file_b.close();
-    // criando arquivo da matriz resultado em "..\matrizes_resultado\sequencial"
+    // criando arquivo da matriz resultado em "..\matrizes_resultado"
     if(!criar_resultado_txt(dimensao_int, matriz_result))
         return;
 
-    if(registrar_tempos(dimensao_int, durations))
+    // registrando tempos em "..\tempos\sequencial"
+    if(registrar_tempos(dimensao_int, durations, 'S'))
         return;
     
-}
-
-void print_matriz(vector<vector<int>> m){
-    for (size_t i = 1; i < m.size(); i++)
-    {
-        for (size_t j = 0; j < m[i].size(); j++)
-        {
-            cout << m[i][j] << " ";
-        }
-        cout << endl;
-    }
 }

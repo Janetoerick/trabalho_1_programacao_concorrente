@@ -1,3 +1,4 @@
+#include <iostream>
 #include <tuple>
 #include <fstream>
 #include <vector>
@@ -57,42 +58,41 @@ vector<vector<int>> arquivo_para_matriz(string f){
     return matriz;
 }
 
-char* nome_arquivo_resultado(int dimensao, char algoritmo){
-    if(algoritmo == 'S'){
-        if(dimensao == 4)
-            return "..\\matrizes_resultado\\C4x4.txt";
-        else if(dimensao == 8)
-            return "..\\matrizes_resultado\\C8x8.txt";
-        else if(dimensao == 16)
-            return "..\\matrizes_resultado\\C16x16.txt";
-        else if(dimensao == 32)
-            return "..\\matrizes_resultado\\C32x32.txt";
-        else if(dimensao == 64)
-            return "..\\matrizes_resultado\\C64x64.txt";
-        else if(dimensao == 128)
-            return "..\\matrizes_resultado\\C128x128.txt";
-        else if(dimensao == 256)
-            return "..\\matrizes_resultado\\C256x256.txt";
-        else if(dimensao == 512)
-            return "..\\matrizes_resultado\\C512x512.txt";
-        else if(dimensao == 1024)
-            return "..\\matrizes_resultado\\C1024x1024.txt";
-        else if(dimensao == 2048)
-            return "..\\matrizes_resultado\\C2048x2048.txt";
-        else
-            return "";
-    }
+char* nome_arquivo_resultado(int dimensao){
+    if(dimensao == 4)
+        return "..\\matrizes_resultado\\C4x4.txt";
+    else if(dimensao == 8)
+        return "..\\matrizes_resultado\\C8x8.txt";
+    else if(dimensao == 16)
+        return "..\\matrizes_resultado\\C16x16.txt";
+    else if(dimensao == 32)
+        return "..\\matrizes_resultado\\C32x32.txt";
+    else if(dimensao == 64)
+        return "..\\matrizes_resultado\\C64x64.txt";
+    else if(dimensao == 128)
+        return "..\\matrizes_resultado\\C128x128.txt";
+    else if(dimensao == 256)
+        return "..\\matrizes_resultado\\C256x256.txt";
+    else if(dimensao == 512)
+        return "..\\matrizes_resultado\\C512x512.txt";
+    else if(dimensao == 1024)
+        return "..\\matrizes_resultado\\C1024x1024.txt";
+    else if(dimensao == 2048)
+        return "..\\matrizes_resultado\\C2048x2048.txt";
+    else
+        return "";
     
 }
 
 bool criar_resultado_txt(int dimensao, vector<vector<int>> matriz){
-    ofstream arq(nome_arquivo_resultado(dimensao, 'S'));
+    ofstream arq(nome_arquivo_resultado(dimensao)); // criando arquivo para matriz resultado
 
     if (!arq.good()){ // Se nào conseguiu criar
         cout << "Problemas na CRIACAO do arquivo" << endl;
         return false;
     }
 
+    // anexando valores no arquivo texto
     for (size_t i = 0; i < matriz.size(); i++){
         for (size_t j = 0; j < matriz[i].size(); j++){
             arq << matriz[i][j] << "\t";
@@ -103,6 +103,10 @@ bool criar_resultado_txt(int dimensao, vector<vector<int>> matriz){
     return true;
 }
 
+/* 
+ * Pegar o maior valor dos tempos
+ *
+*/
 double maior_tempo(vector<chrono::duration<double>> durations){
     
     double maior = durations[0].count();
@@ -114,6 +118,10 @@ double maior_tempo(vector<chrono::duration<double>> durations){
     return maior;
 }
 
+/* 
+ * Pegar o menor valor dos tempos
+ *
+*/
 double menor_tempo(vector<chrono::duration<double>> durations){
     
     double menor = durations[0].count();
@@ -125,6 +133,10 @@ double menor_tempo(vector<chrono::duration<double>> durations){
     return menor;
 }
 
+/* 
+ * Calcular a media dos tempos
+ *
+*/
 double media_tempo(vector<chrono::duration<double>> durations){
     
     double media = 0;
@@ -136,6 +148,10 @@ double media_tempo(vector<chrono::duration<double>> durations){
     return media;
 }
 
+/* 
+ * Calcular o desvio padrao dos tempos
+ *
+*/
 double desvio_padrao_tempo(vector<chrono::duration<double>> durations){
     
     double media = media_tempo(durations);
@@ -149,9 +165,23 @@ double desvio_padrao_tempo(vector<chrono::duration<double>> durations){
     return desvio_padrao;
 }
 
-bool registrar_tempos(int dimensao, vector<chrono::duration<double>> durations){
 
-    ifstream arq_tempo_ler("../tempos/sequencial.txt");
+/* 
+ * Registrar todas as informacoes de tempo na pasta
+ *
+*/
+bool registrar_tempos(int dimensao, vector<chrono::duration<double>> durations, char algoritmo){
+
+    ifstream arq_tempo_ler;
+
+    if(algoritmo == 'S')
+        ifstream arq_tempo_ler("../tempos/sequencial.txt");
+    else if (algoritmo == 'C')
+        ifstream arq_tempo_ler("../tempos/concorrente.txt");
+    else {
+        cout << "tipo de algoritmo nao conhecido." << endl;
+        return false;
+    }
     string line;
     string arq_tempo_string; 
     while(getline(arq_tempo_ler, line)){
