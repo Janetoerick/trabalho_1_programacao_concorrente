@@ -7,7 +7,7 @@ com dimensões quadraticas, sempre em conjunto de A e B.
 
 Para fazer o calculo da matriz basta escrever:
 
-" $ <<programa>> 4 S "
+" $ \programa/ 4 S "
 
 * O número dado na linha de comando representa a quantidade de dimensões que as matrizes deverão ter (o programa irá pegar automaticamente 
 no exemplo acima as matrizes dos arquivos A4x4.txt e B4x4txt localizados na pasta "matrizes").
