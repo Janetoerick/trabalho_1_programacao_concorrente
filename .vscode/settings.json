@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "vector": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "tuple": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp"
+    }
+}
