@@ -60,25 +60,25 @@ vector<vector<int>> arquivo_para_matriz(string f){
 char* nome_arquivo_resultado(int dimensao, char algoritmo){
     if(algoritmo == 'S'){
         if(dimensao == 4)
-            return "..\\matrizes_resultado\\sequencial\\C4x4.txt";
+            return "..\\matrizes_resultado\\C4x4.txt";
         else if(dimensao == 8)
-            return "..\\matrizes_resultado\\sequencial\\C8x8.txt";
+            return "..\\matrizes_resultado\\C8x8.txt";
         else if(dimensao == 16)
-            return "..\\matrizes_resultado\\sequencial\\C16x16.txt";
+            return "..\\matrizes_resultado\\C16x16.txt";
         else if(dimensao == 32)
-            return "..\\matrizes_resultado\\sequencial\\C32x32.txt";
+            return "..\\matrizes_resultado\\C32x32.txt";
         else if(dimensao == 64)
-            return "..\\matrizes_resultado\\sequencial\\C64x64.txt";
+            return "..\\matrizes_resultado\\C64x64.txt";
         else if(dimensao == 128)
-            return "..\\matrizes_resultado\\sequencial\\C128x128.txt";
+            return "..\\matrizes_resultado\\C128x128.txt";
         else if(dimensao == 256)
-            return "..\\matrizes_resultado\\sequencial\\C256x256.txt";
+            return "..\\matrizes_resultado\\C256x256.txt";
         else if(dimensao == 512)
-            return "..\\matrizes_resultado\\sequencial\\C512x512.txt";
+            return "..\\matrizes_resultado\\C512x512.txt";
         else if(dimensao == 1024)
-            return "..\\matrizes_resultado\\sequencial\\C1024x1024.txt";
+            return "..\\matrizes_resultado\\C1024x1024.txt";
         else if(dimensao == 2048)
-            return "..\\matrizes_resultado\\sequencial\\C2048x2048.txt";
+            return "..\\matrizes_resultado\\C2048x2048.txt";
         else
             return "";
     }
