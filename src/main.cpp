@@ -13,6 +13,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+    
     if (argc != 3){
         cout << "Entrada irregular!" << endl;
         return 0;
@@ -24,7 +25,13 @@ int main(int argc, char const *argv[])
     if(char_array[1] == ' ' || char_array[1] == NULL){
         if(char_array[0] == 'S'){
             multiplicador_matriz(argv[1]);
+        }else if(char_array[0] == 'C'){
+
+        } else {
+            cout << "ERROR: TIPO DE ALGORITMO NAO CONHECIDO" << endl;
         }
+    } else {
+        cout << "ERROR: TIPO DE ALGORITMO NAO CONHECIDO" << endl;
     }
     
 

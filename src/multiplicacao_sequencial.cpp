@@ -7,30 +7,15 @@
 using namespace std;
 
 void multiplicador_matriz(string dimensao){
-    // transformando dimensao em int
-    int dimensao_int = stoi(dimensao);
 
     // pegar o caminho de arquivo das matrizes a e b de dimensao x
-    tuple<string, string> files = pegar_matrizes(dimensao_int);
+    tuple<string, string> files = pegar_matrizes(dimensao);
 
-    // abrindo arquivos
-    ifstream file_a(get<0>(files));
-    ifstream file_b(get<1>(files));
-    
-    // checando se a dimensao existe nas matrizes exemplo para o trabalho
-    if(get<0>(files) == ""){
-        cout << "dimensoes nao existentes na base de dados, tente outra dimensao" << endl;
+    if(get<0>(files) == "")
         return;
-    }
 
-    // checando se os dois arquivos foram abertos
-    if(!file_a.is_open()){
-        cout << "Problemas na abertura do arquivo 1" << endl;
-        return;
-    } else if(!file_b.is_open()){
-        cout << "Problemas na abertura do arquivo 2" << endl;
-        return;
-    }
+    // transformando dimensao em int
+    int dimensao_int = stoi(dimensao);
 
     //criando as matrizes a, b e c(matriz resultado de a x b) 
     vector<vector<int>> matriz_a = arquivo_para_matriz(get<0>(files));
@@ -80,8 +65,8 @@ void multiplicador_matriz(string dimensao){
             matriz_result.clear();
         
     }
-    file_a.close();
-    file_b.close();
+    
+
     // criando arquivo da matriz resultado em "..\matrizes_resultado"
     if(!criar_resultado_txt(dimensao_int, matriz_result))
         return;

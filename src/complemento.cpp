@@ -1,45 +1,82 @@
 #include <iostream>
 #include <tuple>
 #include <fstream>
+#include <chrono>
 #include <vector>
 #include <cmath>
 
 using namespace std;
 
-tuple<string, string> pegar_matrizes(int dimensao){
-    if(dimensao == 4){
-        return tuple<string,string>{"..\\matrizes\\A4x4.txt","..\\matrizes\\B4x4.txt"};
-    }else if(dimensao == 8)
-        return tuple<string,string>{"..\\matrizes\\A8x8.txt","..\\matrizes\\B8x8.txt"};
-    else if(dimensao == 16)
-        return tuple<string,string>{"..\\matrizes\\A16x16.txt","..\\matrizes\\B16x16.txt"};
-    else if(dimensao == 32)
-        return tuple<string,string>{"..\\matrizes\\A32x32.txt","..\\matrizes\\B32x32.txt"};
-    else if(dimensao == 64)
-        return tuple<string,string>{"..\\matrizes\\A64x64.txt","..\\matrizes\\B64x64.txt"};
-    else if(dimensao == 128)
-        return tuple<string,string>{"..\\matrizes\\A128x128.txt","..\\matrizes\\B128x128.txt"};
-    else if(dimensao == 256)
-        return tuple<string,string>{"..\\matrizes\\A256x256.txt","..\\matrizes\\B256x256.txt"};
-    else if(dimensao == 512)
-        return tuple<string,string>{"..\\matrizes\\A512x512.txt","..\\matrizes\\B512x512.txt"};
-    else if(dimensao == 1024)
-        return tuple<string,string>{"..\\matrizes\\A1024x1024.txt","..\\matrizes\\B1024x1024.txt"};
-    else if(dimensao == 2048)
-        return tuple<string,string>{"..\\matrizes\\A2048x2048.txt","..\\matrizes\\B2048x2048.txt"};
+/*
+* A partir de uma dimensao, pegar os arquivos pre existentes na pasta 'matrizes'
+* checar se os arquivos estao bem e retornar caminho para os 2 arquivos de matriz
+*
+*/
+tuple<string, string> pegar_matrizes(string dimensao){
+    
+    // Pegando arquivos com dimensao especificada
+    tuple<string, string> files;
+    if(dimensao == "4"){
+        files = {"..\\matrizes\\A4x4.txt","..\\matrizes\\B4x4.txt"};
+    }else if(dimensao == "8")
+        files = {"..\\matrizes\\A8x8.txt","..\\matrizes\\B8x8.txt"};
+    else if(dimensao == "16")
+        files = {"..\\matrizes\\A16x16.txt","..\\matrizes\\B16x16.txt"};
+    else if(dimensao == "32")
+        files = {"..\\matrizes\\A32x32.txt","..\\matrizes\\B32x32.txt"};
+    else if(dimensao == "64")
+        files = {"..\\matrizes\\A64x64.txt","..\\matrizes\\B64x64.txt"};
+    else if(dimensao == "128")
+        files = {"..\\matrizes\\A128x128.txt","..\\matrizes\\B128x128.txt"};
+    else if(dimensao == "256")
+        files = {"..\\matrizes\\A256x256.txt","..\\matrizes\\B256x256.txt"};
+    else if(dimensao == "512")
+        files = {"..\\matrizes\\A512x512.txt","..\\matrizes\\B512x512.txt"};
+    else if(dimensao == "1024")
+        files = {"..\\matrizes\\A1024x1024.txt","..\\matrizes\\B1024x1024.txt"};
+    else if(dimensao == "2048")
+        files = {"..\\matrizes\\A2048x2048.txt","..\\matrizes\\B2048x2048.txt"};
     else
-        return tuple<string,string>{"",""};
+        files = {"",""};
+    
+    // abrindo arquivos
+    ifstream file_a(get<0>(files));
+    ifstream file_b(get<1>(files));
+    
+    // checando se a dimensao existe nas matrizes exemplo para o trabalho
+    if(get<0>(files) == ""){
+        cout << "ERROR: DIMENSOES NAO EXISTENTES NA BASE DE DADOS" << endl;
+        return files;
+    }
 
+    // checando se os dois arquivos foram abertos
+    if(!file_a.is_open()){
+        cout << "ERROR: PROBLEMAS NA ABERTURA DO ARQUIVO 1" << endl;
+        return {"", ""};
+    } else if(!file_b.is_open()){
+        cout << "ERROR: PROBLEMAS NA ABERTURA DO ARQUIVO 2" << endl;
+        return {"", ""};
+    }
+    file_a.close(); // fechando arquivo a
+    file_b.close(); // fechando arquivo b
+    
+    return files;
 }
 
+/*
+* Consturindo e retornando matriz a partir do caminho de arquivo dado
+*
+*/
 vector<vector<int>> arquivo_para_matriz(string f){
-    ifstream file(f);
-    vector<int> lines;
-    
-    vector<vector<int>> matriz;
-    string line;
-    string value;
 
+    ifstream file(f);       // abrindo arquivo
+    vector<int> lines;      // variavel para pegar valores linha a linha da matriz
+    
+    vector<vector<int>> matriz; // matriz total
+    string line;                // variavel para pegar linha a linha do arquivo de texto
+    string value;               // variavel para pegar os valores individuais da linha do arquivo de texto
+
+    // percorrendo as linhas do arquivo convertendo os valores individuais em inteiros na matriz 'matriz'
     while(getline(file, line)){
         for (size_t i = 0; i < line.size(); i++)
         {   
@@ -54,10 +91,15 @@ vector<vector<int>> arquivo_para_matriz(string f){
         matriz.push_back(lines);
         lines.clear();
     }
+    file.close(); // fechando arquivo
 
     return matriz;
 }
 
+/*
+* Gerar o nome do arquivo resultado a partir da dimensao recebida
+*
+*/
 char* nome_arquivo_resultado(int dimensao){
     if(dimensao == 4)
         return "..\\matrizes_resultado\\C4x4.txt";
@@ -84,11 +126,15 @@ char* nome_arquivo_resultado(int dimensao){
     
 }
 
+/*
+* Criar arquivo resultado a partir de uma matriz obtida
+*
+*/
 bool criar_resultado_txt(int dimensao, vector<vector<int>> matriz){
     ofstream arq(nome_arquivo_resultado(dimensao)); // criando arquivo para matriz resultado
 
     if (!arq.good()){ // Se nào conseguiu criar
-        cout << "Problemas na CRIACAO do arquivo" << endl;
+        cout << "ERROR: PROBLEMAS NA CRIACAO DO ARQUIVO RESULTADO" << endl;
         return false;
     }
 
@@ -99,7 +145,7 @@ bool criar_resultado_txt(int dimensao, vector<vector<int>> matriz){
         }
         arq << endl;
     }
-    arq.close();
+    arq.close(); // fechando arquivo
     return true;
 }
 
@@ -167,31 +213,32 @@ double desvio_padrao_tempo(vector<chrono::duration<double>> durations){
 
 
 /* 
- * Registrar todas as informacoes de tempo na pasta
+ * Registrar todas as informacoes de tempo na pasta 'tempos'
  *
 */
 bool registrar_tempos(int dimensao, vector<chrono::duration<double>> durations, char algoritmo){
 
     ifstream arq_tempo_ler;
 
+    // abrindo arquivo para ler
     if(algoritmo == 'S')
         ifstream arq_tempo_ler("../tempos/sequencial.txt");
     else if (algoritmo == 'C')
         ifstream arq_tempo_ler("../tempos/concorrente.txt");
-    else {
-        cout << "tipo de algoritmo nao conhecido." << endl;
-        return false;
-    }
-    string line;
-    string arq_tempo_string; 
+
+    // Salvar informacoes do arquivo
+    string line;                // variavel para percorrer linha a linha do arquivo de texto
+    string arq_tempo_string;    // variavel para salvar todo conteudo existente no arquivo
     while(getline(arq_tempo_ler, line)){
         arq_tempo_string += line + '\n';
     }
     arq_tempo_ler.close();
 
+    // abrindo o arquivo para escrever
     ofstream arq_tempo("../tempos/sequencial.txt");
-    arq_tempo << arq_tempo_string << dimensao << ":" << endl << "[";
+    arq_tempo << arq_tempo_string << dimensao << ":" << endl << "["; // reescrevendo o que ja tinha
 
+    // adicionando ao arquivo os novos tempos obtidos
     for (size_t i = 0; i < durations.size(); i++){
         arq_tempo << durations[i].count();
         if(i != durations.size() - 1)
@@ -201,8 +248,8 @@ bool registrar_tempos(int dimensao, vector<chrono::duration<double>> durations, 
     << "| Maior: " << maior_tempo(durations) 
     << " | Menor: " << menor_tempo(durations)
     << " | Media: " << media_tempo(durations)
-    << " | Desvio_Padrao: " << desvio_padrao_tempo(durations) << endl << endl;
+    << " | Desvio_Padrao: " << desvio_padrao_tempo(durations) << " |"<< endl << endl;
 
-    arq_tempo.close();
+    arq_tempo.close(); // fechando arquivo
     return true;
 }
