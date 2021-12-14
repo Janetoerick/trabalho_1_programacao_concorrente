@@ -1,4 +1,4 @@
-# trabalho-1---programa-o-concorrente
+# Trabalho 1 - Programação concorrente
 
 Esse trabalho tem como objetivo analisar o quanto um programa concorrente é mais efetivo do que um programa sequencial em questão de tempo de
 execução. Para esse experimento foi feita a construção de duas classes, na qual as duas fazem multiplicação de matrizes, porém uma trabalha
