@@ -17,32 +17,32 @@ tuple<string, string> pegar_matrizes(string dimensao){
     // Pegando arquivos com dimensao especificada
     tuple<string, string> files;
     if(dimensao == "4"){
-        files = {"..\\matrizes\\A4x4.txt","..\\matrizes\\B4x4.txt"};
+        files = {"../matrizes/A4x4.txt","../matrizes/B4x4.txt"};
     }else if(dimensao == "8")
-        files = {"..\\matrizes\\A8x8.txt","..\\matrizes\\B8x8.txt"};
+        files = {"../matrizes/A8x8.txt","../matrizes/B8x8.txt"};
     else if(dimensao == "16")
-        files = {"..\\matrizes\\A16x16.txt","..\\matrizes\\B16x16.txt"};
+        files = {"../matrizes/A16x16.txt","../matrizes/B16x16.txt"};
     else if(dimensao == "32")
-        files = {"..\\matrizes\\A32x32.txt","..\\matrizes\\B32x32.txt"};
+        files = {"../matrizes/A32x32.txt","../matrizes/B32x32.txt"};
     else if(dimensao == "64")
-        files = {"..\\matrizes\\A64x64.txt","..\\matrizes\\B64x64.txt"};
+        files = {"../matrizes/A64x64.txt","../matrizes/B64x64.txt"};
     else if(dimensao == "128")
-        files = {"..\\matrizes\\A128x128.txt","..\\matrizes\\B128x128.txt"};
+        files = {"../matrizes/A128x128.txt","../matrizes/B128x128.txt"};
     else if(dimensao == "256")
-        files = {"..\\matrizes\\A256x256.txt","..\\matrizes\\B256x256.txt"};
+        files = {"../matrizes/A256x256.txt","../matrizes/B256x256.txt"};
     else if(dimensao == "512")
-        files = {"..\\matrizes\\A512x512.txt","..\\matrizes\\B512x512.txt"};
+        files = {"../matrizes/A512x512.txt","../matrizes/B512x512.txt"};
     else if(dimensao == "1024")
-        files = {"..\\matrizes\\A1024x1024.txt","..\\matrizes\\B1024x1024.txt"};
+        files = {"../matrizes/A1024x1024.txt","../matrizes/B1024x1024.txt"};
     else if(dimensao == "2048")
-        files = {"..\\matrizes\\A2048x2048.txt","..\\matrizes\\B2048x2048.txt"};
+        files = {"../matrizes/A2048x2048.txt","../matrizes/B2048x2048.txt"};
     else
         files = {"",""};
     
     // abrindo arquivos
     ifstream file_a(get<0>(files));
     ifstream file_b(get<1>(files));
-    
+
     // checando se a dimensao existe nas matrizes exemplo para o trabalho
     if(get<0>(files) == ""){
         cout << "ERROR: DIMENSOES NAO EXISTENTES NA BASE DE DADOS" << endl;
@@ -100,27 +100,27 @@ vector<vector<int>> arquivo_para_matriz(string f){
 * Gerar o nome do arquivo resultado a partir da dimensao recebida
 *
 */
-char* nome_arquivo_resultado(int dimensao){
+string nome_arquivo_resultado(int dimensao){
     if(dimensao == 4)
-        return "..\\matrizes_resultado\\C4x4.txt";
+        return "../matrizes_resultado/C4x4.txt";
     else if(dimensao == 8)
-        return "..\\matrizes_resultado\\C8x8.txt";
+        return "../matrizes_resultado/C8x8.txt";
     else if(dimensao == 16)
-        return "..\\matrizes_resultado\\C16x16.txt";
+        return "../matrizes_resultado//C16x16.txt";
     else if(dimensao == 32)
-        return "..\\matrizes_resultado\\C32x32.txt";
+        return "../matrizes_resultado/C32x32.txt";
     else if(dimensao == 64)
-        return "..\\matrizes_resultado\\C64x64.txt";
+        return "../matrizes_resultado/C64x64.txt";
     else if(dimensao == 128)
-        return "..\\matrizes_resultado\\C128x128.txt";
+        return "../matrizes_resultado/C128x128.txt";
     else if(dimensao == 256)
-        return "..\\matrizes_resultado\\C256x256.txt";
+        return "../matrizes_resultado/C256x256.txt";
     else if(dimensao == 512)
-        return "..\\matrizes_resultado\\C512x512.txt";
+        return "../matrizes_resultado/C512x512.txt";
     else if(dimensao == 1024)
-        return "..\\matrizes_resultado\\C1024x1024.txt";
+        return "../matrizes_resultado/C1024x1024.txt";
     else if(dimensao == 2048)
-        return "..\\matrizes_resultado\\C2048x2048.txt";
+        return "../matrizes_resultado/C2048x2048.txt";
     else
         return "";
     
@@ -130,7 +130,7 @@ char* nome_arquivo_resultado(int dimensao){
 * Criar arquivo resultado a partir de uma matriz obtida
 *
 */
-bool criar_resultado_txt(int dimensao, vector<vector<int>> matriz){
+bool criar_resultado_txt(int dimensao, int **matriz){
     ofstream arq(nome_arquivo_resultado(dimensao)); // criando arquivo para matriz resultado
 
     if (!arq.good()){ // Se nào conseguiu criar
@@ -139,8 +139,8 @@ bool criar_resultado_txt(int dimensao, vector<vector<int>> matriz){
     }
 
     // anexando valores no arquivo texto
-    for (size_t i = 0; i < matriz.size(); i++){
-        for (size_t j = 0; j < matriz[i].size(); j++){
+    for (size_t i = 0; i < dimensao; i++){
+        for (size_t j = 0; j < dimensao; j++){
             arq << matriz[i][j] << "\t";
         }
         arq << endl;

@@ -19,19 +19,17 @@ int main(int argc, char const *argv[])
         return 0;
     }
 
-    char char_array[2];
-    strcpy(char_array, argv[2]);
+    // char char_array[2];
+    // strcpy(char_array, argv[2]);
     
-    if(char_array[1] == ' ' || char_array[1] == NULL){
-        if(char_array[0] == 'S'){
-            multiplicador_matriz(argv[1]);
-        }else if(char_array[0] == 'C'){
+    string entrada_algoritmo(argv[2]);
 
-        } else {
-            cout << "ERROR: TIPO DE ALGORITMO NAO CONHECIDO" << endl;
-        }
+    if(entrada_algoritmo.compare("S") == 0){
+        multiplicador_matriz_s(argv[1]);
+    }else if(entrada_algoritmo.compare("C") == 0){
+
     } else {
-        cout << "ERROR: TIPO DE ALGORITMO NAO CONHECIDO" << endl;
+        cout << "ERROR: TIPO DE ALGORITMO NAO CONHECIDO " << endl;
     }
     
 

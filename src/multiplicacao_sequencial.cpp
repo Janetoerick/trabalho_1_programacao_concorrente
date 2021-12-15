@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void multiplicador_matriz(string dimensao){
+void multiplicador_matriz_s(string dimensao){
 
     // pegar o caminho de arquivo das matrizes a e b de dimensao x
     tuple<string, string> files = pegar_matrizes(dimensao);
@@ -17,16 +17,22 @@ void multiplicador_matriz(string dimensao){
     // transformando dimensao em int
     int dimensao_int = stoi(dimensao);
 
-    //criando as matrizes a, b e c(matriz resultado de a x b) 
+    //criando as matrizes a, b e preenchendo com os valores dos arquivos txt
     vector<vector<int>> matriz_a = arquivo_para_matriz(get<0>(files));
     vector<vector<int>> matriz_b = arquivo_para_matriz(get<1>(files));
-    vector<vector<int>> matriz_result;
 
     // verificando se as matrizes a e b sao compativeis para multiplicar
     if(matriz_a[0][1] != matriz_b[0][0]){
         cout << "Matrizes encompativeis para multiplicacao" << endl;
         return;
     }
+
+    int **matriz_result;
+    matriz_result = new int *[dimensao_int];
+    for (size_t i = 0; i < dimensao_int; i++) {
+        matriz_result[i] = new int[dimensao_int];
+    }
+    
     
     // criando variavel para registrar o tempo total de execucao do calculo
     chrono::duration<double> total(0);
@@ -34,7 +40,6 @@ void multiplicador_matriz(string dimensao){
     // criando variaveis de apoio para o calculo
     int soma;                   // resultado de cada elemento
     int count = 0;              // contador de iteracoes das multiplicacoes
-    vector<int> line_result;    // linha de resultados para ser gravada na matriz resultado
     vector<chrono::duration<double>> durations; // registro de tempos nas 20 execucoes
     
     while(count < 20){
@@ -49,21 +54,14 @@ void multiplicador_matriz(string dimensao){
                 {   
                     soma = soma + (matriz_a[i+1][k] * matriz_b[k+1][j]);
                 }
-                line_result.push_back(soma);
-
+                matriz_result[i][j] = soma;
             }
-            matriz_result.push_back(line_result);
-            line_result.clear();
         }
 
         auto fim = chrono::steady_clock::now(); // pegando o tempo do final da execucao
         total = fim - inicio; // Pegando o tempo de execucao da funcao
         durations.push_back(total); // gravando resultado
         count++; // partindo para outra execucao
-
-        if(count < 20) // Pegando a matriz apenas 1 vez
-            matriz_result.clear();
-        
     }
     
 
