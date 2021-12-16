@@ -1,40 +1,40 @@
-Tempo de execução: 3.936e-06
+Tempo de execução: 193.575
 ----------------------------------
-Tempo de execução: 3.422e-06
+Tempo de execução: 195.068
 ----------------------------------
-Tempo de execução: 4.989e-06
+Tempo de execução: 194.561
 ----------------------------------
-Tempo de execução: 6.792e-06
+Tempo de execução: 193.574
 ----------------------------------
-Tempo de execução: 3.222e-06
+Tempo de execução: 196.492
 ----------------------------------
-Tempo de execução: 3.795e-06
+Tempo de execução: 196.856
 ----------------------------------
-Tempo de execução: 4.16e-06
+Tempo de execução: 196.108
 ----------------------------------
-Tempo de execução: 5.805e-06
+Tempo de execução: 193.718
 ----------------------------------
-Tempo de execução: 3.872e-06
+Tempo de execução: 194.633
 ----------------------------------
-Tempo de execução: 5.536e-06
+Tempo de execução: 195.689
 ----------------------------------
-Tempo de execução: 5.707e-06
+Tempo de execução: 194.325
 ----------------------------------
-Tempo de execução: 4.103e-06
+Tempo de execução: 194.159
 ----------------------------------
-Tempo de execução: 4.22e-06
+Tempo de execução: 193.913
 ----------------------------------
-Tempo de execução: 3.328e-06
+Tempo de execução: 193.554
 ----------------------------------
-Tempo de execução: 4.012e-06
+Tempo de execução: 196.086
 ----------------------------------
-Tempo de execução: 4.834e-06
+Tempo de execução: 194.187
 ----------------------------------
-Tempo de execução: 6.362e-06
+Tempo de execução: 193.804
 ----------------------------------
-Tempo de execução: 4.393e-06
+Tempo de execução: 193.765
 ----------------------------------
-Tempo de execução: 3.268e-06
+Tempo de execução: 193.843
 ----------------------------------
-Tempo de execução: 3.568e-06
+Tempo de execução: 193.613
 ----------------------------------
