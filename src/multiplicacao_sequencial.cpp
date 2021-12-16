@@ -2,9 +2,10 @@
 #include <iostream>
 #include <chrono>
 #include <fstream>
-#include "complemento.cpp"
+#include "../include/complemento.h"
 
 using namespace std;
+using namespace complemento;
 
 void multiplicador_matriz_s(string dimensao){
 
@@ -32,10 +33,6 @@ void multiplicador_matriz_s(string dimensao){
     for (size_t i = 0; i < dimensao_int; i++) {
         matriz_result[i] = new int[dimensao_int];
     }
-    
-    
-    // criando variavel para registrar o tempo total de execucao do calculo
-    chrono::duration<double> total(0);
 
     // criando variaveis de apoio para o calculo
     int soma;                   // resultado de cada elemento
@@ -59,7 +56,8 @@ void multiplicador_matriz_s(string dimensao){
         }
 
         auto fim = chrono::steady_clock::now(); // pegando o tempo do final da execucao
-        total = fim - inicio; // Pegando o tempo de execucao da funcao
+        //std::chrono::duration<double, milli> total = fim - inicio; // Pegando o tempo de execucao da funcao em milisegundos
+        auto total = chrono::duration_cast<chrono::seconds>(fim - inicio);
         durations.push_back(total); // gravando resultado
         count++; // partindo para outra execucao
     }

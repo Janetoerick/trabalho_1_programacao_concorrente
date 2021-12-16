@@ -8,6 +8,7 @@
 #include <string>
 #include <cstring>
 #include "multiplicacao_sequencial.cpp"
+#include "multiplicacao_concorrente.cpp"
 
 using namespace std;
 
@@ -27,7 +28,7 @@ int main(int argc, char const *argv[])
     if(entrada_algoritmo.compare("S") == 0){
         multiplicador_matriz_s(argv[1]);
     }else if(entrada_algoritmo.compare("C") == 0){
-
+        multiplicador_matriz_c(argv[1]);
     } else {
         cout << "ERROR: TIPO DE ALGORITMO NAO CONHECIDO " << endl;
     }

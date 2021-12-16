@@ -1,18 +1,13 @@
-#include <iostream>
-#include <tuple>
-#include <fstream>
-#include <chrono>
-#include <vector>
-#include <cmath>
+#include "../include/complemento.h"
 
-using namespace std;
+using namespace complemento;
 
 /*
 * A partir de uma dimensao, pegar os arquivos pre existentes na pasta 'matrizes'
 * checar se os arquivos estao bem e retornar caminho para os 2 arquivos de matriz
 *
 */
-tuple<string, string> pegar_matrizes(string dimensao){
+tuple<string, string> complemento::pegar_matrizes(string dimensao){
     
     // Pegando arquivos com dimensao especificada
     tuple<string, string> files;
@@ -67,7 +62,7 @@ tuple<string, string> pegar_matrizes(string dimensao){
 * Consturindo e retornando matriz a partir do caminho de arquivo dado
 *
 */
-vector<vector<int>> arquivo_para_matriz(string f){
+vector<vector<int>> complemento::arquivo_para_matriz(string f){
 
     ifstream file(f);       // abrindo arquivo
     vector<int> lines;      // variavel para pegar valores linha a linha da matriz
@@ -100,7 +95,8 @@ vector<vector<int>> arquivo_para_matriz(string f){
 * Gerar o nome do arquivo resultado a partir da dimensao recebida
 *
 */
-string nome_arquivo_resultado(int dimensao){
+string complemento::nome_arquivo_resultado(int dimensao){
+
     if(dimensao == 4)
         return "../matrizes_resultado/C4x4.txt";
     else if(dimensao == 8)
@@ -121,8 +117,8 @@ string nome_arquivo_resultado(int dimensao){
         return "../matrizes_resultado/C1024x1024.txt";
     else if(dimensao == 2048)
         return "../matrizes_resultado/C2048x2048.txt";
-    else
-        return "";
+
+    return "";
     
 }
 
@@ -130,7 +126,7 @@ string nome_arquivo_resultado(int dimensao){
 * Criar arquivo resultado a partir de uma matriz obtida
 *
 */
-bool criar_resultado_txt(int dimensao, int **matriz){
+bool complemento::criar_resultado_txt(int dimensao, int **matriz){
     ofstream arq(nome_arquivo_resultado(dimensao)); // criando arquivo para matriz resultado
 
     if (!arq.good()){ // Se nào conseguiu criar
@@ -153,7 +149,7 @@ bool criar_resultado_txt(int dimensao, int **matriz){
  * Pegar o maior valor dos tempos
  *
 */
-double maior_tempo(vector<chrono::duration<double>> durations){
+double complemento::maior_tempo(vector<chrono::duration<double>> durations){
     
     double maior = durations[0].count();
     for (size_t i = 0; i < durations.size(); i++){
@@ -168,7 +164,7 @@ double maior_tempo(vector<chrono::duration<double>> durations){
  * Pegar o menor valor dos tempos
  *
 */
-double menor_tempo(vector<chrono::duration<double>> durations){
+double complemento::menor_tempo(vector<chrono::duration<double>> durations){
     
     double menor = durations[0].count();
     for (size_t i = 0; i < durations.size(); i++){
@@ -183,7 +179,7 @@ double menor_tempo(vector<chrono::duration<double>> durations){
  * Calcular a media dos tempos
  *
 */
-double media_tempo(vector<chrono::duration<double>> durations){
+double complemento::media_tempo(vector<chrono::duration<double>> durations){
     
     double media = 0;
     for (size_t i = 0; i < durations.size(); i++){
@@ -198,7 +194,7 @@ double media_tempo(vector<chrono::duration<double>> durations){
  * Calcular o desvio padrao dos tempos
  *
 */
-double desvio_padrao_tempo(vector<chrono::duration<double>> durations){
+double complemento::desvio_padrao_tempo(vector<chrono::duration<double>> durations){
     
     double media = media_tempo(durations);
     double desvio_padrao = 0;
@@ -216,15 +212,20 @@ double desvio_padrao_tempo(vector<chrono::duration<double>> durations){
  * Registrar todas as informacoes de tempo na pasta 'tempos'
  *
 */
-bool registrar_tempos(int dimensao, vector<chrono::duration<double>> durations, char algoritmo){
+bool complemento::registrar_tempos(int dimensao, vector<chrono::duration<double>> durations, char algoritmo){
 
-    ifstream arq_tempo_ler;
-
-    // abrindo arquivo para ler
+    string file;
     if(algoritmo == 'S')
-        ifstream arq_tempo_ler("../tempos/sequencial.txt");
+        file = "../tempos/sequencial.txt";
     else if (algoritmo == 'C')
-        ifstream arq_tempo_ler("../tempos/concorrente.txt");
+        file = "../tempos/concorrente.txt";
+    else{
+        cout << "ERROR: TIPO DE ALGORITMO NAO REGISTRADO OBTER TEMPO DE EXECUCAO!" << endl;
+        return false;
+    }
+
+    // abrindo arquivo para ler o que tem dentro
+    ifstream arq_tempo_ler(file);
 
     // Salvar informacoes do arquivo
     string line;                // variavel para percorrer linha a linha do arquivo de texto
@@ -235,7 +236,8 @@ bool registrar_tempos(int dimensao, vector<chrono::duration<double>> durations, 
     arq_tempo_ler.close();
 
     // abrindo o arquivo para escrever
-    ofstream arq_tempo("../tempos/sequencial.txt");
+    ofstream arq_tempo(file);
+
     arq_tempo << arq_tempo_string << dimensao << ":" << endl << "["; // reescrevendo o que ja tinha
 
     // adicionando ao arquivo os novos tempos obtidos
