@@ -54,35 +54,28 @@ void multiplicador_matriz_c(string dimensao){
 
     // // criando variaveis de apoio para o calculo
     int soma;                   // resultado de cada elemento
-    int count = 0;              // contador de iteracoes das multiplicacoes
-    vector<chrono::duration<double>> durations; // registro de tempos nas 20 execucoes
 
     thread threads[dimensao_int];
-    while(count < 20){
     auto inicio = chrono::steady_clock::now(); // Pegando tempo a partir desse ponto (largada)
 
-        for (size_t i = 0; i < dimensao_int; i++){
-            threads[i] = thread (multiplicar_linha, matriz_a, matriz_b, i);
-        }
-
-        for (size_t i = 0; i < dimensao_int; i++) {
-            threads[i].join();
-        }   
-
-        auto fim = chrono::steady_clock::now(); // pegando o tempo do final da execucao
-        //std::chrono::duration<double, milli> total = fim - inicio; // Pegando o tempo de execucao da funcao em milisegundos
-        auto total = chrono::duration_cast<chrono::seconds>(fim - inicio);
-        durations.push_back(total); // gravando resultado
-        count++; // partindo para outra execucao
+    for (size_t i = 0; i < dimensao_int; i++){
+        threads[i] = thread (multiplicar_linha, matriz_a, matriz_b, i);
     }
-    
+
+    for (size_t i = 0; i < dimensao_int; i++) {
+        threads[i].join();
+    }   
+
+    auto fim = chrono::steady_clock::now(); // pegando o tempo do final da execucao
+    std::chrono::duration<double, milli> total = fim - inicio; // Pegando o tempo de execucao da funcao em milisegundos
+    //auto total = chrono::duration_cast<chrono::seconds>(fim - inicio); // pegando o tempo de execucao da funcao em segundos
 
     // // criando arquivo da matriz resultado em "..\matrizes_resultado"
     if(!criar_resultado_txt(dimensao_int, matriz_result))
         return;
 
     // // registrando tempos em "..\tempos\sequencial"
-    if(registrar_tempos(dimensao_int, durations, 'C'))
+    if(registrar_tempos(dimensao_int, total, 'C'))
         return;
     
 }

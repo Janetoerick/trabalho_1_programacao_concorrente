@@ -36,31 +36,22 @@ void multiplicador_matriz_s(string dimensao){
 
     // criando variaveis de apoio para o calculo
     int soma;                   // resultado de cada elemento
-    int count = 0;              // contador de iteracoes das multiplicacoes
-    vector<chrono::duration<double>> durations; // registro de tempos nas 20 execucoes
     
-    while(count < 20){
     auto inicio = chrono::steady_clock::now(); // Pegando tempo a partir desse ponto (largada)
 
-        for (size_t i = 0; i < matriz_a[0][0]; i++)
-        {
-            for (size_t j = 0; j < matriz_b[0][1]; j++)
-            {
-                soma = 0;
-                for (size_t k = 0; k < matriz_a[0][1]; k++)
-                {   
-                    soma = soma + (matriz_a[i+1][k] * matriz_b[k+1][j]);
-                }
-                matriz_result[i][j] = soma;
+    for (size_t i = 0; i < matriz_a[0][0]; i++){
+        for (size_t j = 0; j < matriz_b[0][1]; j++){
+            soma = 0;
+            for (size_t k = 0; k < matriz_a[0][1]; k++){   
+                soma = soma + (matriz_a[i+1][k] * matriz_b[k+1][j]);
             }
+            matriz_result[i][j] = soma;
         }
-
-        auto fim = chrono::steady_clock::now(); // pegando o tempo do final da execucao
-        //std::chrono::duration<double, milli> total = fim - inicio; // Pegando o tempo de execucao da funcao em milisegundos
-        auto total = chrono::duration_cast<chrono::seconds>(fim - inicio);
-        durations.push_back(total); // gravando resultado
-        count++; // partindo para outra execucao
     }
+
+    auto fim = chrono::steady_clock::now(); // pegando o tempo do final da execucao
+    std::chrono::duration<double, milli> total = fim - inicio; // Pegando o tempo de execucao da funcao em milisegundos
+    //auto total = chrono::duration_cast<chrono::seconds>(fim - inicio); // pegando o tempo de execucao da funcao em segundos
     
 
     // criando arquivo da matriz resultado em "..\matrizes_resultado"
@@ -68,7 +59,7 @@ void multiplicador_matriz_s(string dimensao){
         return;
 
     // registrando tempos em "..\tempos\sequencial"
-    if(registrar_tempos(dimensao_int, durations, 'S'))
+    if(registrar_tempos(dimensao_int, total, 'S'))
         return;
     
 }

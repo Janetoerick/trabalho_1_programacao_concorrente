@@ -92,42 +92,13 @@ vector<vector<int>> complemento::arquivo_para_matriz(string f){
 }
 
 /*
-* Gerar o nome do arquivo resultado a partir da dimensao recebida
-*
-*/
-string complemento::nome_arquivo_resultado(int dimensao){
-
-    if(dimensao == 4)
-        return "../matrizes_resultado/C4x4.txt";
-    else if(dimensao == 8)
-        return "../matrizes_resultado/C8x8.txt";
-    else if(dimensao == 16)
-        return "../matrizes_resultado//C16x16.txt";
-    else if(dimensao == 32)
-        return "../matrizes_resultado/C32x32.txt";
-    else if(dimensao == 64)
-        return "../matrizes_resultado/C64x64.txt";
-    else if(dimensao == 128)
-        return "../matrizes_resultado/C128x128.txt";
-    else if(dimensao == 256)
-        return "../matrizes_resultado/C256x256.txt";
-    else if(dimensao == 512)
-        return "../matrizes_resultado/C512x512.txt";
-    else if(dimensao == 1024)
-        return "../matrizes_resultado/C1024x1024.txt";
-    else if(dimensao == 2048)
-        return "../matrizes_resultado/C2048x2048.txt";
-
-    return "";
-    
-}
-
-/*
 * Criar arquivo resultado a partir de uma matriz obtida
 *
 */
 bool complemento::criar_resultado_txt(int dimensao, int **matriz){
-    ofstream arq(nome_arquivo_resultado(dimensao)); // criando arquivo para matriz resultado
+    string nome_arquivo_resultado = "../matrizes_resultado/C" + to_string(dimensao) + 
+                                    "x" + to_string(dimensao) + ".txt";
+    ofstream arq(nome_arquivo_resultado); // criando arquivo para matriz resultado
 
     if (!arq.good()){ // Se nào conseguiu criar
         cout << "ERROR: PROBLEMAS NA CRIACAO DO ARQUIVO RESULTADO" << endl;
@@ -146,79 +117,16 @@ bool complemento::criar_resultado_txt(int dimensao, int **matriz){
 }
 
 /* 
- * Pegar o maior valor dos tempos
- *
-*/
-double complemento::maior_tempo(vector<chrono::duration<double>> durations){
-    
-    double maior = durations[0].count();
-    for (size_t i = 0; i < durations.size(); i++){
-        if(maior < durations[i].count())
-            maior = durations[i].count();
-    }
-    
-    return maior;
-}
-
-/* 
- * Pegar o menor valor dos tempos
- *
-*/
-double complemento::menor_tempo(vector<chrono::duration<double>> durations){
-    
-    double menor = durations[0].count();
-    for (size_t i = 0; i < durations.size(); i++){
-        if(menor > durations[i].count())
-            menor = durations[i].count();
-    }
-    
-    return menor;
-}
-
-/* 
- * Calcular a media dos tempos
- *
-*/
-double complemento::media_tempo(vector<chrono::duration<double>> durations){
-    
-    double media = 0;
-    for (size_t i = 0; i < durations.size(); i++){
-        media +=durations[i].count();
-    }
-    
-    media = media / durations.size();
-    return media;
-}
-
-/* 
- * Calcular o desvio padrao dos tempos
- *
-*/
-double complemento::desvio_padrao_tempo(vector<chrono::duration<double>> durations){
-    
-    double media = media_tempo(durations);
-    double desvio_padrao = 0;
-    for (size_t i = 0; i < durations.size(); i++){
-        desvio_padrao += pow(2, (durations[i].count() - media));
-    }
-
-    desvio_padrao = sqrt(desvio_padrao / 20);
-    
-    return desvio_padrao;
-}
-
-
-/* 
  * Registrar todas as informacoes de tempo na pasta 'tempos'
  *
 */
-bool complemento::registrar_tempos(int dimensao, vector<chrono::duration<double>> durations, char algoritmo){
+bool complemento::registrar_tempos(int dimensao, chrono::duration<double> duracao, char algoritmo){
 
     string file;
     if(algoritmo == 'S')
-        file = "../tempos/sequencial.txt";
-    else if (algoritmo == 'C')
-        file = "../tempos/concorrente.txt";
+        file = "../tempos/sequencial/dimensao_"+ to_string(dimensao) +".txt";
+    else if(algoritmo == 'C')
+        file = "../tempos/concorrente/dimensao_"+ to_string(dimensao) +".txt";
     else{
         cout << "ERROR: TIPO DE ALGORITMO NAO REGISTRADO OBTER TEMPO DE EXECUCAO!" << endl;
         return false;
@@ -238,19 +146,8 @@ bool complemento::registrar_tempos(int dimensao, vector<chrono::duration<double>
     // abrindo o arquivo para escrever
     ofstream arq_tempo(file);
 
-    arq_tempo << arq_tempo_string << dimensao << ":" << endl << "["; // reescrevendo o que ja tinha
-
-    // adicionando ao arquivo os novos tempos obtidos
-    for (size_t i = 0; i < durations.size(); i++){
-        arq_tempo << durations[i].count();
-        if(i != durations.size() - 1)
-            arq_tempo << " , ";
-    }
-    arq_tempo << " ] " << endl 
-    << "| Maior: " << maior_tempo(durations) 
-    << " | Menor: " << menor_tempo(durations)
-    << " | Media: " << media_tempo(durations)
-    << " | Desvio_Padrao: " << desvio_padrao_tempo(durations) << " |"<< endl << endl;
+    arq_tempo << arq_tempo_string << "Tempo de execução: " << duracao.count() << endl
+    << "----------------------------------" << endl;
 
     arq_tempo.close(); // fechando arquivo
     return true;
