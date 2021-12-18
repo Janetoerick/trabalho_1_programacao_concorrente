@@ -32,7 +32,7 @@ tuple<string, string> complemento::pegar_matrizes(string dimensao){
     else if(dimensao == "2048")
         files = {"../matrizes/A2048x2048.txt","../matrizes/B2048x2048.txt"};
     else
-        files = {"",""};
+        files = {"",""}; // Caso nao seja nenhum numero, atribuir "" aos 2 valores
     
     // abrindo arquivos
     ifstream file_a(get<0>(files));

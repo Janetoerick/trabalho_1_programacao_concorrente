@@ -22,23 +22,19 @@ void multiplicador_matriz_s(string dimensao){
     vector<vector<int>> matriz_a = arquivo_para_matriz(get<0>(files));
     vector<vector<int>> matriz_b = arquivo_para_matriz(get<1>(files));
 
-    // verificando se as matrizes a e b sao compativeis para multiplicar
-    if(matriz_a[0][1] != matriz_b[0][0]){
-        cout << "Matrizes encompativeis para multiplicacao" << endl;
-        return;
-    }
-
+    // criando matriz para copular os valores resultado
     int **matriz_result;
-    matriz_result = new int *[dimensao_int];
-    for (size_t i = 0; i < dimensao_int; i++) {
-        matriz_result[i] = new int[dimensao_int];
+    matriz_result = new int *[dimensao_int]; // criando a quantidade de linhas = dimensao passada
+    for (size_t i = 0; i < dimensao_int; i++) { // criando a quantidade de colunas = dimensao passada
+        matriz_result[i] = new int[dimensao_int]; 
     }
 
     // criando variaveis de apoio para o calculo
-    int soma;                   // resultado de cada elemento
+    int soma; // resultado de cada elemento
     
     auto inicio = chrono::steady_clock::now(); // Pegando tempo a partir desse ponto (largada)
 
+    // multiplicando as matrizes
     for (size_t i = 0; i < matriz_a[0][0]; i++){
         for (size_t j = 0; j < matriz_b[0][1]; j++){
             soma = 0;

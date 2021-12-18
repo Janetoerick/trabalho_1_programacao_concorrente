@@ -12,19 +12,17 @@
 
 using namespace std;
 
-int main(int argc, char const *argv[])
-{
-    
+int main(int argc, char const *argv[]) {
+
+    // verificando se entraram 3 elementos na linha de comandos
     if (argc != 3){
         cout << "Entrada irregular!" << endl;
         return 0;
     }
 
-    // char char_array[2];
-    // strcpy(char_array, argv[2]);
-    
-    string entrada_algoritmo(argv[2]);
+    string entrada_algoritmo(argv[2]); // pegando ultimo valor passado
 
+    // verificando se o valor é S ou C
     if(entrada_algoritmo.compare("S") == 0){
         multiplicador_matriz_s(argv[1]);
     }else if(entrada_algoritmo.compare("C") == 0){

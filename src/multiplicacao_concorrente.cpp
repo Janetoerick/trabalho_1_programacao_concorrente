@@ -41,27 +41,21 @@ void multiplicador_matriz_c(string dimensao){
     vector<vector<int>> matriz_a = arquivo_para_matriz(get<0>(files));
     vector<vector<int>> matriz_b = arquivo_para_matriz(get<1>(files));
 
-    // // verificando se as matrizes a e b sao compativeis para multiplicar
-    if(matriz_a[0][1] != matriz_b[0][0]){
-        cout << "Matrizes encompativeis para multiplicacao" << endl;
-        return;
-    }
-
-    matriz_result = new int *[dimensao_int];
-    for (size_t i = 0; i < dimensao_int; i++) {
+    matriz_result = new int *[dimensao_int]; // criando a quantidade de linhas = dimensao passada
+    for (size_t i = 0; i < dimensao_int; i++) { // criando a quantidade de colunas = dimensao passada
         matriz_result[i] = new int[dimensao_int];
     }
 
     // // criando variaveis de apoio para o calculo
     int soma;                   // resultado de cada elemento
 
-    thread threads[dimensao_int];
+    thread threads[dimensao_int]; // criando uma lista de threads (1 thread para cada linha da matriz)
     auto inicio = chrono::steady_clock::now(); // Pegando tempo a partir desse ponto (largada)
 
+    // calculando a multiplicacao
     for (size_t i = 0; i < dimensao_int; i++){
         threads[i] = thread (multiplicar_linha, matriz_a, matriz_b, i);
     }
-
     for (size_t i = 0; i < dimensao_int; i++) {
         threads[i].join();
     }   
